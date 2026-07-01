@@ -61,7 +61,7 @@ genomics_utils = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=genomics_utils --cov-report=term-missing --cov-report=xml"
+addopts = "--cov=genomics_utils --cov-report=term-missing --cov-report=xml --cov-fail-under=90"
 
 [tool.coverage.run]
 source = ["genomics_utils"]
