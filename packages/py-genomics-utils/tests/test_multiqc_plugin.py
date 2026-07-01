@@ -1,12 +1,13 @@
 import json
-
-import pytest
+from pathlib import Path
 
 import multiqc
+import pytest
+
 from genomics_utils.multiqc_plugin.genomics_module import parse_stats_json
 from genomics_utils.vcf_annotate import annotate_vcf, write_multiqc_stats
 
-DATA_DIR = __import__("pathlib").Path(__file__).parent / "data"
+DATA_DIR = Path(__file__).parent / "data"
 SAMPLE_VCF = DATA_DIR / "sample.vcf"
 
 
@@ -55,7 +56,8 @@ def test_multiqc_entry_point_is_registered():
 
 def test_multiqc_module_end_to_end(tmp_path):
     _, summary = annotate_vcf(SAMPLE_VCF)
-    write_multiqc_stats(summary, sample_name="sample1", output_path=tmp_path / "sample1_genomics_utils.json")
+    output_path = tmp_path / "sample1_genomics_utils.json"
+    write_multiqc_stats(summary, sample_name="sample1", output_path=output_path)
 
     multiqc.parse_logs(tmp_path, run_modules=["genomics_utils"])
 

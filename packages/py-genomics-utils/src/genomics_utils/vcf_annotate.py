@@ -15,9 +15,10 @@ annotation pipeline.
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable, Iterator
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Iterable, Iterator, TextIO
+from typing import TextIO
 
 PURINES = frozenset("AG")
 PYRIMIDINES = frozenset("CT")
@@ -185,7 +186,9 @@ def annotate_vcf(source: str | Path | TextIO) -> tuple[list[VariantAnnotation], 
     return annotations, summary
 
 
-def write_multiqc_stats(summary: AnnotationSummary, sample_name: str, output_path: str | Path) -> Path:
+def write_multiqc_stats(
+    summary: AnnotationSummary, sample_name: str, output_path: str | Path
+) -> Path:
     """Write a summary JSON file consumable by the ``genomics_utils`` MultiQC module.
 
     The MultiQC plugin (see :mod:`genomics_utils.multiqc_plugin.genomics_module`)

@@ -15,6 +15,7 @@ from typing import Any
 
 from multiqc.base_module import BaseMultiqcModule, ModuleNoSamplesFound
 from multiqc.plots import bargraph
+from multiqc.types import LoadedFileDict
 
 log = logging.getLogger(__name__)
 
@@ -68,7 +69,7 @@ class MultiqcModule(BaseMultiqcModule):
             plot=self._variant_type_bargraph(),
         )
 
-    def _parse_log(self, f: dict[str, Any]) -> None:
+    def _parse_log(self, f: LoadedFileDict) -> None:
         try:
             data = parse_stats_json(f["f"].read())
         except (json.JSONDecodeError, ValueError) as exc:

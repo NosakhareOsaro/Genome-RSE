@@ -156,7 +156,10 @@ def validate_resource(data: dict) -> ValidationResult:
     try:
         model.model_validate(data)
     except ValidationError as exc:
-        errors = [f"{'.'.join(str(p) for p in err['loc']) or '(root)'}: {err['msg']}" for err in exc.errors()]
+        errors = [
+            f"{'.'.join(str(p) for p in err['loc']) or '(root)'}: {err['msg']}"
+            for err in exc.errors()
+        ]
         return ValidationResult(valid=False, resource_type=resource_type, errors=errors)
 
     return ValidationResult(valid=True, resource_type=resource_type, errors=[])
