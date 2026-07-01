@@ -41,6 +41,9 @@ ENV/
 docs/_build/
 docs/**/_autosummary/
 
+# pkgdown site output (built docs, not source)
+packages/r-rnaseq-wrapper/docs/
+
 # ---- R ----
 .Rproj.user/
 .Rhistory

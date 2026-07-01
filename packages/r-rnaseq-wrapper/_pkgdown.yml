@@ -1,0 +1,20 @@
+url: https://example.github.io/GenomeRSE/r-rnaseq-wrapper
+
+template:
+  bootstrap: 5
+
+home:
+  title: rnaseqwrapper
+
+reference:
+  - title: RNA-seq workflow
+    desc: >
+      Load a count matrix, normalize it, run a basic two-group
+      differential expression test, and plot the results.
+    contents:
+      - load_counts
+      - normalize_counts
+      - run_deg
+      - plot_results
+
+articles: []
