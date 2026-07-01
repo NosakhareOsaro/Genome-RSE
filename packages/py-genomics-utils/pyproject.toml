@@ -44,8 +44,8 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/example/GenomeRSE"
-Repository = "https://github.com/example/GenomeRSE"
+Homepage = "https://github.com/NosakhareOsaro/Genome-RSE"
+Repository = "https://github.com/NosakhareOsaro/Genome-RSE"
 
 [project.entry-points."multiqc.modules.v1"]
 genomics_utils = "genomics_utils.multiqc_plugin.genomics_module:MultiqcModule"

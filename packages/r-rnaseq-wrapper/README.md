@@ -1,8 +1,8 @@
 # rnaseqwrapper
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/example/GenomeRSE/actions/workflows/r-rnaseq-wrapper-ci.yml/badge.svg)](https://github.com/example/GenomeRSE/actions/workflows/r-rnaseq-wrapper-ci.yml)
-[![Codecov test coverage](https://codecov.io/gh/example/GenomeRSE/branch/main/graph/badge.svg?flag=r-rnaseq-wrapper)](https://codecov.io/gh/example/GenomeRSE)
+[![R-CMD-check](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/r-rnaseq-wrapper-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/r-rnaseq-wrapper-ci.yml)
+[![Codecov test coverage](https://codecov.io/gh/NosakhareOsaro/Genome-RSE/branch/main/graph/badge.svg?flag=r-rnaseq-wrapper)](https://codecov.io/gh/NosakhareOsaro/Genome-RSE)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 <!-- badges: end -->
 
@@ -19,7 +19,7 @@ differential expression workflow, built as a Phase 1 portfolio package.
 
 ```r
 # install.packages("pak")
-pak::pak("example/GenomeRSE", subdir = "packages/r-rnaseq-wrapper")
+pak::pak("NosakhareOsaro/Genome-RSE", subdir = "packages/r-rnaseq-wrapper")
 ```
 
 ## Usage

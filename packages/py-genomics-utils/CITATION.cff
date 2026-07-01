@@ -5,7 +5,7 @@ version: 0.1.0
 date-released: "2026-07-01"
 type: software
 license: MIT
-repository-code: "https://github.com/example/GenomeRSE"
+repository-code: "https://github.com/NosakhareOsaro/Genome-RSE"
 abstract: >-
   Small bioinformatics utilities: a VCF annotation helper, a minimal
   FHIR R4 resource validator, and a MultiQC plugin. Developed as Phase 1
