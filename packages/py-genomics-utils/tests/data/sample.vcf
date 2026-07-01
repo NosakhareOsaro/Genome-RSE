@@ -1,0 +1,10 @@
+##fileformat=VCFv4.2
+##source=genomics_utils-synthetic-test-fixture
+##contig=<ID=chr1,length=1000>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr1	100	rs1	A	G	50	PASS	.
+chr1	200	rs2	C	A	60	PASS	.
+chr1	300	rs3	G	T	55	PASS	.
+chr1	400	rs4	A	ATT	40	PASS	.
+chr1	500	rs5	GTA	G	45	PASS	.
+chr1	600	rs6	AC	GT	35	PASS	.
