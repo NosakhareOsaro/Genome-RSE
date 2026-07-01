@@ -50,6 +50,9 @@ Repository = "https://github.com/example/GenomeRSE"
 [project.entry-points."multiqc.modules.v1"]
 genomics_utils = "genomics_utils.multiqc_plugin.genomics_module:MultiqcModule"
 
+[project.entry-points."multiqc.hooks.v1"]
+execution_start = "genomics_utils.multiqc_plugin.hooks:register_search_patterns"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
