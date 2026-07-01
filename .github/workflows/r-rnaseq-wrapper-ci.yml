@@ -1,0 +1,53 @@
+name: r-rnaseq-wrapper CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/r-rnaseq-wrapper/**"
+      - ".github/workflows/r-rnaseq-wrapper-ci.yml"
+  pull_request:
+    paths:
+      - "packages/r-rnaseq-wrapper/**"
+      - ".github/workflows/r-rnaseq-wrapper-ci.yml"
+
+defaults:
+  run:
+    working-directory: packages/r-rnaseq-wrapper
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    env:
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck, any::covr
+          needs: check
+          working-directory: packages/r-rnaseq-wrapper
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          working-directory: packages/r-rnaseq-wrapper
+          upload-snapshots: true
+          # Skip --as-cran: this package isn't CRAN-bound, so its
+          # network-dependent URL/submission checks and PDF-manual
+          # build (needs a full LaTeX toolchain) aren't useful here.
+          args: 'c("--no-manual")'
+          error-on: '"warning"'
+
+      - name: Test coverage
+        # Uploads to Codecov once the repo is connected there (see README);
+        # don't fail the whole check just because that isn't wired up yet.
+        continue-on-error: true
+        run: covr::codecov(quiet = FALSE)
+        shell: Rscript {0}
