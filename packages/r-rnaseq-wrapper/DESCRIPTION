@@ -1,0 +1,27 @@
+Package: rnaseqwrapper
+Title: Wrapper Functions for a Basic RNA-Seq Analysis Workflow
+Version: 0.1.0
+Authors@R:
+    person("Nosakhare", "Osaro", email = "osaronosakhare@gmail.com", role = c("aut", "cre"))
+Description: A small set of wrapper functions implementing a basic RNA-seq
+    differential expression workflow: loading a gene-by-sample count
+    matrix, simple library-size normalization (counts-per-million), a
+    per-gene two-group differential expression test with
+    Benjamini-Hochberg adjustment, and a base-graphics volcano plot. This
+    is a teaching/demonstration package rather than a Bioconductor-grade
+    tool: it does not model counts with a negative binomial distribution
+    the way DESeq2 or edgeR do.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    graphics,
+    stats,
+    utils
+Suggests:
+    covr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/example/GenomeRSE
+BugReports: https://github.com/example/GenomeRSE/issues

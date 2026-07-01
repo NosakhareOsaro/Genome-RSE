@@ -1,0 +1,8 @@
+^LICENSE\.md$
+^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^\.github$
+^\.Rproj\.user$
+^.*\.Rproj$
+^\.pre-commit-config\.yaml$
