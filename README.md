@@ -6,7 +6,7 @@ documentation practices across a multi-phase bioinformatics tooling repository.
 ## Repository layout
 
 - `packages/` — installable libraries (Python, R, ...)
-- `services/` — deployable services (later phase)
+- `services/` — deployable services
 - `plugins/` — third-party tool integrations (later phase)
 - `infra/` — infrastructure-as-code (later phase)
 - `docs/` — repository-wide documentation (later phase)
@@ -29,5 +29,17 @@ documentation practices across a multi-phase bioinformatics tooling repository.
   official public spec examples — see each package's `tests/data/` or
   `inst/extdata/` provenance notes) and flag any simplified/non-conformance-
   grade scope directly in their docs.
+
+- **Phase 2** (`v0.2.0-fhir-api`, in progress): [`services/fhir-api`](services/fhir-api) —
+  an async FastAPI service exposing a FHIR R4 `MolecularSequence` REST
+  API, with a self-contained demo OAuth2 Authorization Server (Authlib
+  + joserfc; **not** a real EHR/IdP — see the service README's callout),
+  async SQLAlchemy/asyncpg + Postgres, Redis cache-aside caching,
+  slowapi rate limiting, Prometheus metrics with a provisioned Grafana
+  dashboard, a pytest-asyncio suite (100% coverage, gated at 95%), a
+  Locust load-test script, and a one-command `docker compose up --build`
+  stack (verified end-to-end against real Postgres/Redis/Prometheus/
+  Grafana). Deployment docs (AWS EC2 + Nginx + Let's Encrypt) are
+  documentation-only — no live infrastructure is provisioned by this repo.
 
 Later phases will build on this foundation; this README will grow with each milestone.
