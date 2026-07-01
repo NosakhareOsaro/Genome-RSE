@@ -1,0 +1,27 @@
+{
+  "title": "genomics-utils",
+  "description": "Small bioinformatics utilities: a VCF annotation helper, a minimal FHIR R4 resource validator, and a MultiQC plugin. Phase 1 of the GenomeRSE research-software-engineering portfolio project.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Osaro, Nosakhare",
+      "affiliation": ""
+    }
+  ],
+  "keywords": [
+    "bioinformatics",
+    "vcf",
+    "fhir",
+    "multiqc",
+    "genomics"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/example/GenomeRSE",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

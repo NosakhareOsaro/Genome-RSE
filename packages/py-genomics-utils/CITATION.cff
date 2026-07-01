@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "genomics-utils"
+version: 0.1.0
+date-released: "2026-07-01"
+type: software
+license: MIT
+repository-code: "https://github.com/example/GenomeRSE"
+abstract: >-
+  Small bioinformatics utilities: a VCF annotation helper, a minimal
+  FHIR R4 resource validator, and a MultiQC plugin. Developed as Phase 1
+  of the GenomeRSE research-software-engineering portfolio project.
+authors:
+  - family-names: "Osaro"
+    given-names: "Nosakhare"
+    email: "osaronosakhare@gmail.com"
+keywords:
+  - bioinformatics
+  - vcf
+  - fhir
+  - multiqc
+  - genomics
