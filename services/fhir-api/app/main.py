@@ -6,6 +6,7 @@ from fastapi import FastAPI
 
 from app.auth.server import router as oauth_router
 from app.routers.molecular_sequence import router as molecular_sequence_router
+from app.routers.system import router as system_router
 
 
 def create_app() -> FastAPI:
@@ -19,6 +20,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(oauth_router)
     app.include_router(molecular_sequence_router)
+    app.include_router(system_router)
     return app
 
 
