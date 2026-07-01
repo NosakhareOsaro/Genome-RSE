@@ -34,7 +34,8 @@ async def test_issue_token_explicit_scope(client: AsyncClient):
         client, scope="system/MolecularSequence.write system/MolecularSequence.read"
     )
     assert response.status_code == 200
-    assert response.json()["scope"] == "system/MolecularSequence.read system/MolecularSequence.write"
+    expected_scope = "system/MolecularSequence.read system/MolecularSequence.write"
+    assert response.json()["scope"] == expected_scope
 
 
 async def test_issue_token_wrong_client_id(client: AsyncClient):

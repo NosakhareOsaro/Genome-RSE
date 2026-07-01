@@ -24,7 +24,10 @@ def create_app() -> FastAPI:
         version="0.1.0",
     )
     app.state.limiter = limiter
-    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+    # slowapi's handler is typed narrowly for RateLimitExceeded specifically;
+    # Starlette's add_exception_handler wants a handler typed for Exception.
+    # This is a slowapi typing quirk, not a real signature mismatch.
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)  # type: ignore[arg-type]
     app.add_middleware(SlowAPIMiddleware)
 
     app.include_router(oauth_router)

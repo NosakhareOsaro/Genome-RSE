@@ -23,7 +23,9 @@ async def test_create_resource_missing_required_field(
     client: AsyncClient, read_write_headers: dict[str, str]
 ):
     response = await client.post(
-        "/MolecularSequence", json={"patient": {"reference": "Patient/abc"}}, headers=read_write_headers
+        "/MolecularSequence",
+        json={"patient": {"reference": "Patient/abc"}},
+        headers=read_write_headers,
     )
     assert response.status_code == 422
 
@@ -97,7 +99,9 @@ async def test_search_resources_without_filter_returns_all(
     assert response.json()["total"] == 3
 
 
-async def test_search_resources_count_limit(client: AsyncClient, read_write_headers: dict[str, str]):
+async def test_search_resources_count_limit(
+    client: AsyncClient, read_write_headers: dict[str, str]
+):
     for _ in range(3):
         await client.post(
             "/MolecularSequence", json={"coordinateSystem": 0}, headers=read_write_headers
@@ -166,7 +170,9 @@ async def test_delete_resource(client: AsyncClient, read_write_headers: dict[str
     )
     assert delete_response.status_code == 204
 
-    read_response = await client.get(f"/MolecularSequence/{resource_id}", headers=read_write_headers)
+    read_response = await client.get(
+        f"/MolecularSequence/{resource_id}", headers=read_write_headers
+    )
     assert read_response.status_code == 404
 
 

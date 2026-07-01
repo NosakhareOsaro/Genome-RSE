@@ -8,8 +8,8 @@ API clients).
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from typing import Any
+from datetime import UTC, date, datetime
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
@@ -83,6 +83,6 @@ async def capability_statement() -> dict[str, Any]:
 
 
 @router.get("/healthz")
-async def healthz(session: AsyncSession = Depends(get_db_session)) -> dict[str, Any]:
+async def healthz(session: Annotated[AsyncSession, Depends(get_db_session)]) -> dict[str, Any]:
     await session.execute(text("SELECT 1"))
-    return {"status": "ok", "time": datetime.now(timezone.utc).isoformat()}
+    return {"status": "ok", "time": datetime.now(UTC).isoformat()}

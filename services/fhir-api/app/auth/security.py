@@ -62,7 +62,9 @@ def require_scope(*scopes: str):
             token = resource_protector.validate_request(list(scopes), request)
         except OAuth2Error as exc:
             headers = {"WWW-Authenticate": f'Bearer error="{exc.error}"'}
-            raise HTTPException(status_code=exc.status_code, detail=exc.error, headers=headers) from exc
+            raise HTTPException(
+                status_code=exc.status_code, detail=exc.error, headers=headers
+            ) from exc
         return token
 
     return _dependency

@@ -16,7 +16,7 @@ attributes.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -53,7 +53,7 @@ class ReferenceSeq(BaseModel):
     window_end: int | None = Field(default=None, alias="windowEnd")
 
 
-class MolecularSequenceType(str, Enum):
+class MolecularSequenceType(StrEnum):
     AA = "aa"
     DNA = "dna"
     RNA = "rna"

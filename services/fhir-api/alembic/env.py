@@ -9,9 +9,9 @@ Alembic + SQLAlchemy async engines.
 import asyncio
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
+from alembic import context
 from app.config import get_settings
 from app.models.orm import Base
 

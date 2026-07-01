@@ -14,7 +14,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud
 from app.auth.security import require_scope
-from app.cache import get_cached_resource, get_redis, invalidate_cached_resource, set_cached_resource
+from app.cache import (
+    get_cached_resource,
+    get_redis,
+    invalidate_cached_resource,
+    set_cached_resource,
+)
 from app.config import get_settings
 from app.db import get_db_session
 from app.models.fhir import Bundle, BundleEntry, MolecularSequenceBase, MolecularSequenceResource
