@@ -1,0 +1,93 @@
+# Brings up the full stack with one command:
+#   docker compose up --build
+#
+# The demo credentials below (DEMO_CLIENT_SECRET, JWT_SIGNING_KEY,
+# GF_SECURITY_ADMIN_PASSWORD) are the same obvious placeholders used
+# throughout this repo -- see the top-level README's demo Authorization
+# Server callout. They are baked in here (rather than requiring a .env
+# file first) so this compose file works standalone as a local demo
+# stack; replace them with real secrets (e.g. via a real .env/secrets
+# manager) for anything beyond local development.
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://fhir:fhir@postgres:5432/fhir
+      REDIS_URL: redis://redis:6379/0
+      CACHE_TTL_SECONDS: "60"
+      DEMO_CLIENT_ID: demo-client
+      DEMO_CLIENT_SECRET: REPLACE_ME_NOT_A_REAL_SECRET
+      JWT_SIGNING_KEY: REPLACE_ME_NOT_A_REAL_SECRET
+      JWT_EXPIRES_IN_SECONDS: "3600"
+      RATE_LIMIT: 100/minute
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # postgres and redis are intentionally NOT published to the host: the
+  # api container reaches them by service name over the internal compose
+  # network, and not publishing them avoids colliding with a Postgres/
+  # Redis a developer may already be running locally on the default
+  # ports. Use `docker compose exec postgres psql -U fhir` (or similar)
+  # for ad-hoc host-side access instead.
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: fhir
+      POSTGRES_PASSWORD: fhir
+      POSTGRES_DB: fhir
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fhir"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # prometheus/grafana config is baked into small custom images at build
+  # time (see monitoring/*.Dockerfile) rather than host bind-mounted --
+  # this keeps `docker compose up --build` fully portable (no dependency
+  # on the host OS's file-sharing permissions for this project's path).
+  prometheus:
+    build:
+      context: ./monitoring
+      dockerfile: prometheus.Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+
+  grafana:
+    build:
+      context: ./monitoring
+      dockerfile: grafana.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: REPLACE_ME_NOT_A_REAL_SECRET
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
