@@ -79,3 +79,20 @@ class MolecularSequenceResource(MolecularSequenceBase):
         default="MolecularSequence", alias="resourceType"
     )
     id: str
+
+
+class BundleEntry(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, extra="ignore")
+
+    resource: MolecularSequenceResource
+
+
+class Bundle(BaseModel):
+    """A minimal FHIR ``searchset`` Bundle wrapping search results."""
+
+    model_config = ConfigDict(populate_by_name=True, extra="ignore")
+
+    resource_type: Literal["Bundle"] = Field(default="Bundle", alias="resourceType")
+    type: Literal["searchset"] = "searchset"
+    total: int
+    entry: list[BundleEntry] = Field(default_factory=list)
