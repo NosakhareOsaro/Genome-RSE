@@ -1,0 +1,66 @@
+name: model-serving CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/model-serving/**"
+      - ".github/workflows/model-serving-ci.yml"
+  pull_request:
+    paths:
+      - "services/model-serving/**"
+      - ".github/workflows/model-serving-ci.yml"
+
+defaults:
+  run:
+    working-directory: services/model-serving
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+          cache-dependency-path: services/model-serving/pyproject.toml
+
+      - name: Install package with dev dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Lint with ruff
+        run: ruff check .
+
+      - name: Check formatting with black
+        run: black --check .
+
+      - name: Check import order with isort
+        run: isort --check-only .
+
+      - name: Type check with mypy
+        run: mypy app training
+
+      - name: Run tests with coverage
+        run: pytest
+
+      - name: Upload coverage report
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: services/model-serving/coverage.xml
+
+      - name: Exercise the real train -> register -> promote -> export pipeline
+        run: |
+          python -m training.train
+          python -m training.promote_model
+          test -s app/model_artifact/model.joblib
+          test -s app/model_artifact/metadata.json
