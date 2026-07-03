@@ -1,0 +1,9 @@
+{
+  "registered_model_name": "splice-junction-classifier",
+  "model_version": 1,
+  "run_id": "ada520e9a30e41b696ad6a34e26d4d86",
+  "alias": "production",
+  "accuracy": 0.9608150470219435,
+  "macro_f1": 0.9546960841376279,
+  "promoted_at": "2026-07-03T19:35:32.332482+00:00"
+}

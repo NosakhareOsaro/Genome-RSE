@@ -72,8 +72,8 @@ def train_and_register(
     *,
     tracking_uri: str,
     registered_model_name: str = DEFAULT_REGISTERED_MODEL_NAME,
-    n_estimators: int = 100,
-    max_depth: int | None = None,
+    n_estimators: int = 50,
+    max_depth: int | None = 12,
     test_size: float = 0.2,
 ) -> TrainingResult:
     """Train on ``records``, log to MLflow, and register a new model version.
