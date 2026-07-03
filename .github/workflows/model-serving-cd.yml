@@ -11,7 +11,6 @@ on:
   workflow_dispatch: {}
 
 env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/genome-rse-model-serving
   KIND_VERSION: v0.32.0
   HELM_VERSION: v4.2.2
 
@@ -25,8 +24,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set image tag
-        run: echo "IMAGE_TAG=${{ github.sha }}" >> "$GITHUB_ENV"
+      - name: Set image name and tag
+        # Docker/GHCR repository names must be all-lowercase, but
+        # github.repository_owner isn't case-normalized (it's
+        # "NosakhareOsaro", not "nosakhareosaro") -- GitHub Actions
+        # expressions have no built-in lower() function, so this has to
+        # be a shell step rather than inlined directly into `env:` above.
+        run: |
+          echo "IMAGE=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/genome-rse-model-serving" >> "$GITHUB_ENV"
+          echo "IMAGE_TAG=${{ github.sha }}" >> "$GITHUB_ENV"
 
       - name: Build image
         run: docker build -t "$IMAGE:$IMAGE_TAG" services/model-serving
