@@ -78,6 +78,21 @@ Phase 4: `services/model-serving` + `infra/`, an MLOps Kubernetes stack.
   Redis at real multi-user scale, for the same underlying reasoning
   Phase 2 used to choose them).
 
+### Fixed
+
+- `model-serving-cd.yml` failed on its first real run on GitHub's
+  runners (post-tag, in `7aa1a33`): Docker rejected the image reference
+  because `github.repository_owner` resolves to `NosakhareOsaro`
+  (mixed case), and GHCR/Docker repository names must be all-lowercase.
+  GitHub Actions expressions have no built-in `lower()`, so the fix
+  moved `IMAGE` out of the static `env:` block and into a shell step
+  that lowercases the owner with `tr` before building/pushing. Verified
+  locally (the substitution genuinely produces
+  `ghcr.io/nosakhareosaro/genome-rse-model-serving`) and confirmed
+  green on the real repo's Actions runners afterward. All other
+  `github.com/NosakhareOsaro/...` references elsewhere in this repo are
+  plain URLs, which are case-insensitive, and didn't need the same fix.
+
 ## [v0.3.0-jbrowse-plugin] - 2026-07-03
 
 Phase 3: `plugins/jbrowse2-sv-tracks`, a JBrowse2 structural-variant arc plugin.
@@ -164,7 +179,11 @@ Phase 2: `services/fhir-api`, an async FHIR R4 MolecularSequence REST API.
     `concurrency = ["greenlet"]` so `coverage.py` correctly traces
     lines that resume after an awaited SQLAlchemy async ORM call —
     without it, those lines are intermittently reported as missed on
-    Linux/Python 3.11-3.12 even though they run on every request.
+    Linux/Python 3.11-3.12 even though they run on every request. Found
+    when CI first ran the suite on a real Linux runner after local
+    verification had already passed (macOS didn't reproduce the gap);
+    fixed in `6f97aab`, a one-line `pyproject.toml` config change, no
+    test logic was missing.
   - GitHub Actions CI: ruff/black/isort/mypy + pytest across Python
     3.11-3.12.
   - Locust load-test script exercising token issuance + CRUD/search.
