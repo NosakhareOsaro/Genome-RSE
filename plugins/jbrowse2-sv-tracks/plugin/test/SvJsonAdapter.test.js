@@ -77,6 +77,22 @@ describe('SvJsonAdapter', () => {
     expect(features[1].get('mateRefName')).toBe('ctgB')
   })
 
+  it('filters out records the endpoint returns that do not overlap the requested region', async () => {
+    // Simulates a static-file endpoint (e.g. the GitHub Pages demo) that
+    // can't filter server-side and just returns everything.
+    fetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(SAMPLE_RECORDS),
+    })
+    const adapter = makeAdapter()
+
+    const features = await firstValueFrom(
+      adapter.getFeatures({ refName: 'ctgA', start: 0, end: 15000 }).pipe(toArray()),
+    )
+
+    expect(features.map(f => f.id())).toEqual(['sv1_del'])
+  })
+
   it('requests the region passed to getFeatures', async () => {
     fetch.mockResolvedValue({ ok: true, json: () => Promise.resolve([]) })
     const adapter = makeAdapter()

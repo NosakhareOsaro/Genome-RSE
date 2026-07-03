@@ -9,6 +9,8 @@ import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
 import { SimpleFeature } from '@jbrowse/core/util'
 import { ObservableCreate } from '@jbrowse/core/util/rxjs'
 
+import { recordOverlapsRegion } from '../util/region.js'
+
 /**
  * Fetches SV records from the sv-tracks-backend Flask API and converts them
  * into SimpleFeature objects. Each feature is a single 1bp breakpoint (its
@@ -58,13 +60,18 @@ export default class SvJsonAdapter extends BaseFeatureDataAdapter {
         return
       }
       const records = await response.json()
+      // Filter client-side regardless of whether the endpoint already
+      // filtered server-side (the Flask API does; a static JSON file, as
+      // used by the GitHub Pages demo, can't).
       for (const record of records) {
-        observer.next(
-          new SimpleFeature({
-            id: record.id,
-            data: record,
-          }),
-        )
+        if (recordOverlapsRegion(record, region)) {
+          observer.next(
+            new SimpleFeature({
+              id: record.id,
+              data: record,
+            }),
+          )
+        }
       }
       observer.complete()
     })
