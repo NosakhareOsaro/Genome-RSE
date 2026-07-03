@@ -1,5 +1,7 @@
 import Plugin from '@jbrowse/core/Plugin'
 
+import SvJsonAdapterF from './SvJsonAdapter/index.js'
+
 /**
  * Registers pluggable elements only -- no custom Track or Display type.
  *
@@ -17,7 +19,9 @@ import Plugin from '@jbrowse/core/Plugin'
 export default class SvTracksPlugin extends Plugin {
   name = 'SvTracksPlugin'
 
-  install(_pluginManager) {}
+  install(pluginManager) {
+    SvJsonAdapterF(pluginManager)
+  }
 
   configure() {}
 }
