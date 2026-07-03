@@ -33,7 +33,7 @@ def parse_bnd_mate(alt: str) -> tuple[str, int] | None:
     return match.group("chrom"), int(match.group("pos"))
 
 
-def _record_to_dict(record: "pysam.VariantRecord") -> dict[str, Any] | None:
+def _record_to_dict(record: pysam.VariantRecord) -> dict[str, Any] | None:
     info = dict(record.info)
     sv_type = info.get("SVTYPE")
     if sv_type is None:
