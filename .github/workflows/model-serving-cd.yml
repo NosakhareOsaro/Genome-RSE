@@ -1,0 +1,95 @@
+name: model-serving CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/model-serving/**"
+      - "infra/k8s/**"
+      - "infra/helm/**"
+      - ".github/workflows/model-serving-cd.yml"
+  workflow_dispatch: {}
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/genome-rse-model-serving
+  KIND_VERSION: v0.32.0
+  HELM_VERSION: v4.2.2
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Build image
+        run: docker build -t "$IMAGE:$IMAGE_TAG" services/model-serving
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image to GHCR
+        run: |
+          docker push "$IMAGE:$IMAGE_TAG"
+          docker tag "$IMAGE:$IMAGE_TAG" "$IMAGE:latest"
+          docker push "$IMAGE:latest"
+
+      - name: Install kind
+        run: |
+          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64"
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Install helm
+        run: |
+          curl -Lo helm.tar.gz "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz"
+          tar -xzf helm.tar.gz
+          sudo mv linux-amd64/helm /usr/local/bin/helm
+
+      - name: Create kind cluster
+        run: kind create cluster --name genomerse-ci --config infra/k8s/kind-config.yaml
+
+      - name: Load the just-built image directly into the cluster
+        run: |
+          docker tag "$IMAGE:$IMAGE_TAG" genomerse-model-serving:ci
+          kind load docker-image genomerse-model-serving:ci --name genomerse-ci
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install model-serving infra/helm/model-serving \
+            --namespace model-serving --create-namespace \
+            --set image.repository=genomerse-model-serving \
+            --set image.tag=ci \
+            --set image.pullPolicy=Never \
+            --wait --timeout 120s
+
+      - name: Wait for rollout
+        run: kubectl -n model-serving wait --for=condition=available --timeout=120s deployment/model-serving
+
+      - name: Validate in-cluster (health + predict)
+        run: |
+          kubectl -n model-serving run curl-check --image=curlimages/curl:8.10.1 --restart=Never \
+            --command -- sh -c "
+              set -e
+              curl -sf http://model-serving/health
+              echo
+              curl -sf -X POST http://model-serving/predict -H 'Content-Type: application/json' \
+                -d '{\"sequence\": \"CCAGCTGCATCACAGGAGGCCAGCGAGCAGGTCTGTTCCAAGGGCCTTCGAGCCAGTCTG\"}'
+              echo
+            "
+          kubectl -n model-serving wait --for=jsonpath='{.status.phase}'=Succeeded --timeout=60s pod/curl-check
+          kubectl -n model-serving logs curl-check
+
+      - name: Tear down kind cluster
+        if: always()
+        run: kind delete cluster --name genomerse-ci
