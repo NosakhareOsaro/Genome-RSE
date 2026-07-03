@@ -66,6 +66,14 @@ packrat/
 renv/library/
 renv/staging/
 
+# ---- Node.js ----
+node_modules/
+npm-debug.log*
+.npm
+.eslintcache
+coverage/
+*.tsbuildinfo
+
 # ---- Docker ----
 *.pid
 docker-compose.override.yml

@@ -1,0 +1,66 @@
+{
+  "plugins": [
+    {
+      "name": "SvTracks",
+      "url": "http://localhost:9000/dist/out.js"
+    }
+  ],
+  "assemblies": [
+    {
+      "name": "volvox",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "volvox_refseq",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": { "uri": "http://localhost:8082/volvox.fa" },
+          "faiLocation": { "uri": "http://localhost:8082/volvox.fa.fai" }
+        }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "sv_arcs",
+      "name": "Structural variants (arcs)",
+      "assemblyNames": ["volvox"],
+      "category": ["Structural variants"],
+      "adapter": {
+        "type": "SvJsonAdapter",
+        "svEndpoint": "http://localhost:5000/api/svs"
+      },
+      "displays": [
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "sv_arcs-LinearBasicDisplay",
+          "renderer": { "type": "SvArcRenderer" }
+        }
+      ]
+    }
+  ],
+  "defaultSession": {
+    "name": "SV arcs demo",
+    "views": [
+      {
+        "id": "sv-arcs-view",
+        "type": "LinearGenomeView",
+        "displayedRegions": [
+          { "refName": "ctgA", "start": 0, "end": 50001, "assemblyName": "volvox" }
+        ],
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "sv_arcs",
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "configuration": "sv_arcs-LinearBasicDisplay"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
