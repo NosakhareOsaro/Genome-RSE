@@ -69,6 +69,13 @@ addopts = "--cov=app --cov-report=term-missing --cov-report=xml --cov-fail-under
 [tool.coverage.run]
 source = ["app"]
 branch = true
+# SQLAlchemy's async ORM uses greenlet internally to bridge async/await
+# onto the sync DBAPI. Without this, coverage.py's tracer loses track of
+# lines that resume immediately after an awaited ORM call (commit/
+# refresh/execute/delete/get), reporting them as missed even though they
+# run on every request -- reproduced on Linux/Python 3.11-3.12; not
+# triggered on macOS/Python 3.14 in local testing.
+concurrency = ["greenlet"]
 
 [tool.coverage.report]
 exclude_lines = [
