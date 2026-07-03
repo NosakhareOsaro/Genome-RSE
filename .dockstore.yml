@@ -1,0 +1,9 @@
+version: 1.2
+workflows:
+  - name: prepare-sv-track-data
+    subclass: WDL
+    primaryDescriptorPath: /plugins/jbrowse2-sv-tracks/workflow/prepare_sv_track_data.wdl
+    testParameterFiles:
+      - /plugins/jbrowse2-sv-tracks/workflow/test.inputs.json
+    authors:
+      - name: Nosakhare Osaro

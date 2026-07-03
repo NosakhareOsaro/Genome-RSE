@@ -1,0 +1,4 @@
+{
+  "PrepareSvTrackData.vcf": "../backend/data/sv-demo.vcf",
+  "PrepareSvTrackData.bam": "../backend/data/volvox-sorted.bam"
+}
