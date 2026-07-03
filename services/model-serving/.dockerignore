@@ -1,0 +1,16 @@
+.env
+.git
+.pytest_cache
+.mypy_cache
+.ruff_cache
+__pycache__
+*.pyc
+.coverage
+coverage.xml
+htmlcov/
+mlflow.db
+mlruns/
+tests/
+training/
+data/
+README.md
