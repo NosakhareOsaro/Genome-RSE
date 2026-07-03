@@ -1,6 +1,12 @@
 import { readConfObject } from '@jbrowse/core/configuration'
 import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
-import SimpleFeature from '@jbrowse/core/util/simpleFeature'
+// SimpleFeature must come from the '@jbrowse/core/util' barrel, not the
+// '@jbrowse/core/util/simpleFeature' subpath -- the latter isn't one of
+// the paths JBrowse re-exports via window.JBrowseExports for external
+// plugins (confirmed by loading this plugin in a real jbrowse-web and
+// finding that subpath undefined at runtime, despite resolving fine
+// against the local @jbrowse/core npm package in unit tests).
+import { SimpleFeature } from '@jbrowse/core/util'
 import { ObservableCreate } from '@jbrowse/core/util/rxjs'
 
 /**
