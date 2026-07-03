@@ -1,0 +1,88 @@
+name: jbrowse2-sv-tracks GitHub Pages demo
+
+# Deploys a live demo to GitHub Pages under /jbrowse2-sv-tracks/ on the
+# repo's Pages site. Requires a one-time manual step: in the repo's
+# Settings > Pages, set "Source" to "GitHub Actions".
+#
+# The demo has no live backend -- GitHub Pages only serves static files.
+# demo/build_static_svs.py generates a static JSON snapshot of every SV
+# record, and the plugin's SvJsonAdapter filters it client-side by region
+# (see plugin/src/util/region.js), so the same adapter code works against
+# either a real Flask backend (local dev) or this static file.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/jbrowse2-sv-tracks/**"
+      - ".github/workflows/jbrowse2-sv-tracks-pages.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: plugins/jbrowse2-sv-tracks
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: plugins/jbrowse2-sv-tracks/plugin/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build the plugin bundle
+        working-directory: plugins/jbrowse2-sv-tracks/plugin
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install backend (for pysam, used by demo/build_static_svs.py)
+        working-directory: plugins/jbrowse2-sv-tracks/backend
+        run: pip install -e .
+
+      - name: Assemble jbrowse-web
+        run: |
+          npx --yes @jbrowse/cli@^4.2.1 create ./_jbrowse-web --tag v4.3.0
+          python3 demo/build_static_svs.py
+          cp plugin/dist/*.js* ./_jbrowse-web/
+          cp backend/data/volvox.fa backend/data/volvox.fa.fai ./_jbrowse-web/
+          cp demo/sv-demo.json ./_jbrowse-web/
+          cp demo/config.json ./_jbrowse-web/config.json
+
+      - name: Substitute the real Pages URL into config.json
+        run: |
+          BASE_URL="https://${{ github.repository_owner }}.github.io/$(basename '${{ github.repository }}')/jbrowse2-sv-tracks"
+          sed -i "s|__PAGES_BASE_URL__|${BASE_URL}|g" ./_jbrowse-web/config.json
+          grep -E "fastaLocation|faiLocation|svEndpoint" -A1 ./_jbrowse-web/config.json
+
+      - name: Stage site content under /jbrowse2-sv-tracks/
+        run: |
+          mkdir -p _site/jbrowse2-sv-tracks
+          cp -r _jbrowse-web/. _site/jbrowse2-sv-tracks/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: plugins/jbrowse2-sv-tracks/_site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

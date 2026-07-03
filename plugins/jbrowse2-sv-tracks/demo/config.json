@@ -1,0 +1,68 @@
+{
+  "plugins": [
+    {
+      "name": "SvTracks",
+      "url": "./jbrowse-plugin-sv-tracks.umd.production.min.js"
+    }
+  ],
+  "assemblies": [
+    {
+      "name": "volvox",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "volvox_refseq",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": { "uri": "__PAGES_BASE_URL__/volvox.fa" },
+          "faiLocation": { "uri": "__PAGES_BASE_URL__/volvox.fa.fai" }
+        }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "sv_arcs",
+      "name": "Structural variants (arcs)",
+      "assemblyNames": ["volvox"],
+      "category": ["Structural variants"],
+      "adapter": {
+        "type": "SvJsonAdapter",
+        "svEndpoint": "__PAGES_BASE_URL__/sv-demo.json"
+      },
+      "displays": [
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "sv_arcs-LinearBasicDisplay",
+          "renderer": { "type": "SvArcRenderer" }
+        }
+      ]
+    }
+  ],
+  "defaultSession": {
+    "name": "jbrowse2-sv-tracks demo",
+    "views": [
+      {
+        "id": "sv-arcs-view",
+        "type": "LinearGenomeView",
+        "displayedRegions": [
+          { "refName": "ctgA", "start": 0, "end": 50001, "assemblyName": "volvox" }
+        ],
+        "bpPerPx": 40,
+        "offsetPx": 0,
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "sv_arcs",
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "configuration": "sv_arcs-LinearBasicDisplay"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

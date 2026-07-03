@@ -44,6 +44,11 @@ docs/**/_autosummary/
 # pkgdown site output (built docs, not source)
 packages/r-rnaseq-wrapper/docs/
 
+# jbrowse2-sv-tracks: generated demo assembly / static SV snapshot
+plugins/jbrowse2-sv-tracks/_jbrowse-web/
+plugins/jbrowse2-sv-tracks/_site/
+plugins/jbrowse2-sv-tracks/demo/sv-demo.json
+
 # ---- R ----
 .Rproj.user/
 .Rhistory
