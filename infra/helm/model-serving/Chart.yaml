@@ -1,0 +1,12 @@
+apiVersion: v2
+name: model-serving
+description: >-
+  Helm chart for GenomeRSE's demonstration splice-junction classifier
+  serving endpoint (services/model-serving). Not a production-grade
+  splice-site predictor -- see the service README.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/NosakhareOsaro/Genome-RSE
+sources:
+  - https://github.com/NosakhareOsaro/Genome-RSE

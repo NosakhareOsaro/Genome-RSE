@@ -1,0 +1,35 @@
+replicaCount: 2
+
+image:
+  # Defaults match infra/k8s's local-kind-dev tag (see infra/k8s/README.md).
+  # The CD pipeline overrides these three with --set to point at the real
+  # GHCR image it just built and pushed.
+  repository: genomerse-model-serving
+  tag: local
+  pullPolicy: Never
+
+namespace:
+  create: true
+  name: model-serving
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8000
+  nodePort: 30080
+
+config:
+  logLevel: info
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+probes:
+  path: /health
+  readinessInitialDelaySeconds: 5
+  livenessInitialDelaySeconds: 10
