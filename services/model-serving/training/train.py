@@ -42,7 +42,7 @@ RANDOM_STATE = 42
 class TrainingResult:
     run_id: str
     registered_model_name: str
-    model_version: str
+    model_version: int
     accuracy: float
     macro_f1: float
 

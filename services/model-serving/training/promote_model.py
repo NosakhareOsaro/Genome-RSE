@@ -34,7 +34,7 @@ PRODUCTION_ALIAS = "production"
 @dataclass(frozen=True)
 class PromotionResult:
     registered_model_name: str
-    model_version: str
+    model_version: int
     run_id: str
     accuracy: float
     macro_f1: float
