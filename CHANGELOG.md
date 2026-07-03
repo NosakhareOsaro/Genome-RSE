@@ -37,7 +37,11 @@ Phase 2: `services/fhir-api`, an async FHIR R4 MolecularSequence REST API.
     total requests) and datasource.
   - pytest-asyncio suite (41 tests, 100% coverage, gated at a 95%
     minimum), using in-memory SQLite + fakeredis rather than live
-    Postgres/Redis in CI.
+    Postgres/Redis in CI. Coverage is configured with
+    `concurrency = ["greenlet"]` so `coverage.py` correctly traces
+    lines that resume after an awaited SQLAlchemy async ORM call —
+    without it, those lines are intermittently reported as missed on
+    Linux/Python 3.11-3.12 even though they run on every request.
   - GitHub Actions CI: ruff/black/isort/mypy + pytest across Python
     3.11-3.12.
   - Locust load-test script exercising token issuance + CRUD/search.
