@@ -8,19 +8,75 @@ per-package (each package is versioned independently).
 
 ## [Unreleased]
 
+## [v1.0.0-mlops-stack] - 2026-07-03
+
+Phase 4: `services/model-serving` + `infra/`, an MLOps Kubernetes stack.
+
 ### Added
 
-- `services/model-serving` (Python, FastAPI): work in progress toward
-  Phase 4 (MLOps Kubernetes stack). So far: a demonstration
-  splice-junction classifier (scikit-learn RandomForest over the UCI
-  Molecular Biology splice-junction dataset, ~96% held-out accuracy,
-  explicitly documented as a non-production demonstration model), an
-  MLflow (SQLite-backed) tracking + Model Registry training/promotion
-  pipeline, a FastAPI serving app that loads the promoted model as a
-  self-contained artifact (no live MLflow dependency at request time),
-  and a multi-stage Dockerfile verified end-to-end with real
-  `docker build`/`docker run` (`/health`, `/model-info`, `/predict` all
-  hit against the real container). 32 tests, ~95% coverage.
+- `services/model-serving` (Python, FastAPI):
+  - A demonstration splice-junction classifier: scikit-learn
+    `RandomForestClassifier` (50 trees, max depth 12) over one-hot
+    encoded 60-nucleotide windows from the UCI Molecular Biology
+    "Splice-junction Gene Sequences" dataset (real GenBank-derived
+    primate DNA, cached in `data/`, provenance in `data/DATA_SOURCE.md`),
+    ~96% held-out accuracy. Explicitly documented, in module docstrings
+    and the service README, as a demonstration stand-in for an MLOps
+    pipeline -- not a production or clinical splice-site predictor.
+  - `training/train.py` + `training/promote_model.py`: an MLflow
+    (SQLite-backed tracking store) training/Model Registry pipeline --
+    every run genuinely registers a new model version and aliases a
+    specific version as `production` via MLflow's real registry API.
+  - `app/`: a FastAPI serving endpoint (`/health`, `/model-info`,
+    `/predict`) that loads the promoted model as a self-contained,
+    committed artifact (`app/model_artifact/`) with no live MLflow
+    dependency at request time -- see `docs/adr/0001-*.md` and
+    `docs/adr/0003-*.md` for the reasoning.
+  - `app/features.py` one-hot encodes over the observed 8-symbol
+    alphabet (ACGT plus 4 IUPAC ambiguity codes present in the dataset),
+    shared by both training and serving so they can't silently drift.
+  - A multi-stage `Dockerfile`, verified end-to-end with real `docker
+    build`/`docker run` (not just a successful build) -- confirmed which
+    copy of `app/` Python actually imports at runtime, and got correct
+    real predictions from the running container.
+  - pytest suite (32 tests, ~95% coverage, gated at 90%), verified in a
+    fresh `python:3.12-slim` container reproducing CI's exact steps,
+    including a full real `train -> register -> promote -> export` run
+    (not just unit tests of isolated functions) that reproduced the same
+    96.08% accuracy via a fixed random seed.
+  - GitHub Actions CI: ruff/black/isort/mypy + pytest across Python
+    3.11-3.12, plus the same real training-pipeline run as a CI step.
+- `infra/k8s`: raw Kubernetes manifests (namespace, configmap,
+  deployment with readiness/liveness probes, NodePort service) plus a
+  `kind-config.yaml`. Actually deployed to a real local `kind` cluster --
+  both replicas reached `Running`/`Ready`, with `/health`, `/model-info`,
+  `/predict` all returning correct real responses through the cluster's
+  NodePort, not just `kubectl apply --dry-run`.
+- `infra/helm/model-serving`: a Helm chart templating the same
+  deployment, parametrized via `values.yaml` (image repo/tag/pull
+  policy, replicas, service, resources, probes). `helm lint`/`helm
+  template` pass; `helm install` was verified against the same real
+  local kind cluster with the same real responses.
+- `.github/workflows/model-serving-cd.yml`: builds the image, pushes it
+  to GHCR (via the workflow's own `GITHUB_TOKEN`, no extra secrets),
+  creates a kind cluster in the CI runner, loads the just-built image
+  directly (`kind load docker-image`), deploys with the Helm chart, and
+  runs a real in-cluster `curl` validation against `/health` and
+  `/predict` from a throwaway pod before tearing the cluster down. The
+  full kind/helm/kubectl sequence was verified locally before being
+  written into CI.
+- `infra/terraform`: AWS IaC (S3 artifact bucket, ECR repository, IAM
+  roles scoped to this project's own resources, AWS Batch Fargate
+  compute environment/queue/job definition) as **infrastructure-as-code
+  only** -- no AWS credentials, no remote backend, nothing applied.
+  Verified with `terraform fmt -check` and `terraform validate`
+  (`init -backend=false`); no `plan`/`apply` was run.
+- `docs/adr`: three Architecture Decision Records -- FastAPI over Flask
+  for model serving, Kubernetes/Helm over Docker Compose at this tier,
+  and a database/cache technology choice carried over from Phase 2
+  (SQLite now for MLflow's single-writer training use case, Postgres +
+  Redis at real multi-user scale, for the same underlying reasoning
+  Phase 2 used to choose them).
 
 ## [v0.3.0-jbrowse-plugin] - 2026-07-03
 
