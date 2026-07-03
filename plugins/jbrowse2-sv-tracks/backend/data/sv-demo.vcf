@@ -1,0 +1,18 @@
+##fileformat=VCFv4.2
+##source=jbrowse2-sv-tracks-synthetic-demo
+##contig=<ID=ctgA,length=50001>
+##contig=<ID=ctgB,length=6079>
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
+##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
+##INFO=<ID=SVLEN,Number=1,Type=Integer,Description="Difference in length between REF and ALT alleles">
+##INFO=<ID=MATEID,Number=1,Type=String,Description="ID of mate breakend">
+##ALT=<ID=DEL,Description="Deletion">
+##ALT=<ID=DUP,Description="Duplication">
+##ALT=<ID=INV,Description="Inversion">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+ctgA	10000	sv1_del	N	<DEL>	.	PASS	SVTYPE=DEL;END=12000;SVLEN=-2000
+ctgA	20000	sv2_dup	N	<DUP>	.	PASS	SVTYPE=DUP;END=22500;SVLEN=2500
+ctgA	30000	sv3_inv	N	<INV>	.	PASS	SVTYPE=INV;END=33000;SVLEN=3000
+ctgA	40000	sv4_bnd_1	N	N[ctgB:3000[	.	PASS	SVTYPE=BND;MATEID=sv4_bnd_2
+ctgB	1000	sv5_del	N	<DEL>	.	PASS	SVTYPE=DEL;END=1500;SVLEN=-500
+ctgB	3000	sv4_bnd_2	N	]ctgA:40000]N	.	PASS	SVTYPE=BND;MATEID=sv4_bnd_1
