@@ -89,4 +89,9 @@ and hand-authored synthetic SV records, documented unambiguously.
 
 ## Live demo
 
-TBD — see `demo/README.md` once the GitHub Pages workflow lands.
+Deployed by `.github/workflows/jbrowse2-sv-tracks-pages.yml` on push to
+`main` (requires the repo's Settings > Pages > Source to be set to
+"GitHub Actions" once, manually) to
+`https://nosakhareosaro.github.io/Genome-RSE/jbrowse2-sv-tracks/`. See
+[`demo/README.md`](demo/README.md) for how the static (no-backend)
+version works and how to preview it locally.
