@@ -1,5 +1,14 @@
 # GenomeRSE
 
+[![py-genomics-utils CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/py-genomics-utils-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/py-genomics-utils-ci.yml)
+[![r-rnaseq-wrapper CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/r-rnaseq-wrapper-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/r-rnaseq-wrapper-ci.yml)
+[![fhir-api CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/fhir-api-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/fhir-api-ci.yml)
+[![jbrowse2-sv-tracks backend CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-backend-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-backend-ci.yml)
+[![jbrowse2-sv-tracks plugin CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-plugin-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-plugin-ci.yml)
+[![jbrowse2-sv-tracks Pages demo](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-pages.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-pages.yml)
+[![model-serving CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml)
+[![model-serving CD](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml)
+
 A research-software-engineering portfolio project spanning four phases —
 packaging, an async API service, a genome-browser plugin, and an MLOps
 Kubernetes stack — each fully tested, CI-checked, and (where a live
@@ -215,4 +224,12 @@ Across all four phases, the throughline is treating verification as
 non-optional: real containers instead of assumed environments, a real
 browser instead of a passing unit test suite, a real local Kubernetes
 cluster instead of manifests that merely parse. Several real bugs (see
-each phase's own README/CHANGELOG entry) were only ever found this way.
+each phase's own README/CHANGELOG entry) were only ever found this way —
+including two that only surfaced on the *real* GitHub Actions runners,
+after local verification had already passed: a coverage-measurement gap
+in Phase 2's async ORM tests only reproducible on Linux (fixed by
+configuring `coverage.py`'s `concurrency = ["greenlet"]`), and a Docker
+tag rejected by GHCR in Phase 4's CD pipeline because
+`github.repository_owner` isn't lowercase-normalized (see CHANGELOG.md
+for both). Local, containerized, and CI-run verification each catch
+different classes of bug — no one layer replaces the others.
