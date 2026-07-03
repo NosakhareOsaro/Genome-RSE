@@ -8,6 +8,20 @@ per-package (each package is versioned independently).
 
 ## [Unreleased]
 
+### Added
+
+- `services/model-serving` (Python, FastAPI): work in progress toward
+  Phase 4 (MLOps Kubernetes stack). So far: a demonstration
+  splice-junction classifier (scikit-learn RandomForest over the UCI
+  Molecular Biology splice-junction dataset, ~96% held-out accuracy,
+  explicitly documented as a non-production demonstration model), an
+  MLflow (SQLite-backed) tracking + Model Registry training/promotion
+  pipeline, a FastAPI serving app that loads the promoted model as a
+  self-contained artifact (no live MLflow dependency at request time),
+  and a multi-stage Dockerfile verified end-to-end with real
+  `docker build`/`docker run` (`/health`, `/model-info`, `/predict` all
+  hit against the real container). 32 tests, ~95% coverage.
+
 ## [v0.3.0-jbrowse-plugin] - 2026-07-03
 
 Phase 3: `plugins/jbrowse2-sv-tracks`, a JBrowse2 structural-variant arc plugin.
