@@ -9,11 +9,12 @@ repository — each section explains enough context to be read on its own.
 
 **What this document is not:** a claim of novel research, or of having
 solved a previously unsolved problem. Every item below is either a bug
-report against existing software, a workflow registration, or a package
-publication — all standard categories of software engineering activity.
-What follows is a factual account of what was done and what it produced,
-with a link to the real artifact for each, so a reader can verify any of
-it directly rather than relying on this document's description of it.
+report against existing software, a workflow registration, a package
+publication, or a research-data archive registration — all standard
+categories of software engineering activity. What follows is a factual
+account of what was done and what it produced, with a link to the real
+artifact for each, so a reader can verify any of it directly rather than
+relying on this document's description of it.
 
 ## Background
 
@@ -166,7 +167,7 @@ on a separate test system before the real, irreversible publish step —
 PyPI does not allow a published package name and version to be deleted
 and reused once published.
 
-## 4. A Zenodo DOI (pending)
+## 4. A Zenodo DOI archiving this repository
 
 [Zenodo](https://zenodo.org) is a research-data archive that, through an
 integration with GitHub, can automatically archive a snapshot of a
@@ -176,29 +177,51 @@ software in academic work). This is standard practice for making
 research software formally citable; it does not depend on the software
 being novel.
 
-The metadata files Zenodo reads to describe the archive
-(`CITATION.cff` and `.zenodo.json`, both at this repository's root) have
-already been prepared, and the one-time account-linking step connecting
-this repository to Zenodo has already been completed. Minting the actual
-DOI requires publishing a GitHub Release from the `v1.1.0-original-
-contributions` tag — the tag that marks all five Phase 5 work packages,
-including this document, as complete. That release has not been
-published yet. Once it is, this section will be updated with the real
-DOI and a link to the resulting Zenodo record.
+**What was done.** The metadata files Zenodo reads to describe the
+archive (`CITATION.cff` and `.zenodo.json`, both at this repository's
+root) were prepared ahead of time, and the repository was tagged
+`v1.1.0-original-contributions` to mark all five Phase 5 work packages,
+including this document, as complete. The GitHub Release that triggers
+Zenodo's archiving was cut from that tag — but the one-time step
+connecting this specific repository to Zenodo had not actually been
+completed before that release was published, so Zenodo never received
+the event and no DOI was minted. The repository was then connected to
+Zenodo for real, and a second release, `v1.1.1`, was cut from a small
+follow-up commit (a version-number bump only, no code or functional
+changes) specifically to produce a fresh `release.published` webhook
+event for Zenodo to act on.
+
+**Artifact.** [10.5281/zenodo.21197886](https://doi.org/10.5281/zenodo.21197886),
+minted 2026-07-04. This is a Zenodo "concept DOI," which always resolves
+to the latest archived version (`v1.1.1` at the time of writing) rather
+than being pinned to one snapshot — the standard way to cite software
+that may have later versions. The archived record's author name and
+license were confirmed to match this project's real metadata before
+this section was written.
+
+**What this shows.** The archive exists and is independently resolvable
+through the DOI system used for citing software and data in academic
+contexts. Getting there required noticing that a completed-looking step
+(tagging and releasing) had not actually produced the expected result,
+and fixing the actual cause (the GitHub-Zenodo connection, not the
+release itself) rather than repeating the same release again unchanged.
 
 ## Method
 
-Each of the three completed items above followed the same underlying
-approach used throughout this project: before asserting that something
-was broken, missing, or fixed, check it directly against the real,
-current state of the external system in question, rather than against
-an assumption or an earlier finding taken as still valid. In the JBrowse2
-case, that meant re-testing against a freshly assembled current build
-rather than trusting a two-phase-old finding. In the Dockstore case, it
-meant reading the actual sync logs rather than guessing at why nothing
-appeared. In the PyPI case, it meant rehearsing the exact real command on
-a separate test system before running it for real. None of the three
-represents a solved research problem; they represent standard categories
-of engineering work — reporting a bug, registering a workflow, publishing
-a package — carried out by checking each step against the real system
-involved rather than assuming it would behave as expected.
+Each of the four items above followed the same underlying approach used
+throughout this project: before asserting that something was broken,
+missing, or fixed, check it directly against the real, current state of
+the external system in question, rather than against an assumption or an
+earlier finding taken as still valid. In the JBrowse2 case, that meant
+re-testing against a freshly assembled current build rather than
+trusting a two-phase-old finding. In the Dockstore case, it meant reading
+the actual sync logs rather than guessing at why nothing appeared. In the
+PyPI case, it meant rehearsing the exact real command on a separate test
+system before running it for real. In the Zenodo case, it meant noticing
+that a release had been published without producing the expected
+archive, and fixing the actual cause rather than repeating the same step
+again unchanged. None of the four represents a solved research problem;
+they represent standard categories of engineering work — reporting a
+bug, registering a workflow, publishing a package, archiving a release —
+carried out by checking each step against the real system involved
+rather than assuming it would behave as expected.

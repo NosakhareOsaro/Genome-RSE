@@ -8,6 +8,7 @@
 [![jbrowse2-sv-tracks Pages demo](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-pages.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/jbrowse2-sv-tracks-pages.yml)
 [![model-serving CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml)
 [![model-serving CD](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21197886.svg)](https://doi.org/10.5281/zenodo.21197886)
 
 A research-software-engineering portfolio project spanning four core phases —
 packaging, an async API service, a genome-browser plugin, and an MLOps
@@ -182,15 +183,19 @@ not a data or service dependency.
     irreversible `pypi.org` publish). Standard practice, not novel; see
     [`contributions/03-pypi-publication.md`](contributions/03-pypi-publication.md)
     for the full process, including the rename reasoning.
-  - A fourth item, a Zenodo DOI archiving this repository, is pending —
-    the metadata and account linking are done, but minting the DOI
-    requires a GitHub Release cut from the final `v1.1.0` tag.
+  - **A real Zenodo DOI archiving this repository**
+    ([10.5281/zenodo.21197886](https://doi.org/10.5281/zenodo.21197886),
+    minted 2026-07-04) — a "concept DOI" that always resolves to the
+    latest archived version (currently `v1.1.1`). Standard practice for
+    making research software formally citable, not novel; see
+    [`contributions/04-zenodo-doi.md`](contributions/04-zenodo-doi.md)
+    for the full process, including a real GitHub-Zenodo integration
+    hiccup it took to get there.
 
   [`docs/case-study.md`](docs/case-study.md) is a single, self-contained
-  write-up of the three completed items above (written for a reader
-  unfamiliar with this repo or the specific tools involved — e.g. a visa
-  caseworker or non-specialist interviewer), to be updated with the
-  Zenodo DOI once it exists.
+  write-up of all four items above, written for a reader unfamiliar with
+  this repo or the specific tools involved — e.g. a visa caseworker or
+  non-specialist interviewer.
 
 ## Setup
 

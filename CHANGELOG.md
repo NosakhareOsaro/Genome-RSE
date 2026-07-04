@@ -12,7 +12,11 @@ per-package (each package is versioned independently).
 
 Phase 5: original, externally-verifiable contributions building on Phases 1-4.
 
-Note: `v1.1.1` (2026-07-04, no functional changes) exists solely because Zenodo's GitHub integration was only connected *after* `v1.1.0-original-contributions` was published, so that release was never archived -- `v1.1.1` re-cuts the same content purely to trigger the now-connected webhook and mint a real DOI.
+Note: `v1.1.1` (2026-07-04, no functional changes) exists solely because
+Zenodo's GitHub integration was only connected *after*
+`v1.1.0-original-contributions` was published, so that release was never
+archived -- `v1.1.1` re-cuts the same content purely to trigger the
+now-connected webhook and mint a real DOI.
 
 ### Added
 
@@ -29,12 +33,20 @@ Note: `v1.1.1` (2026-07-04, no functional changes) exists solely because Zenodo'
   documentation PR (explaining `ConfigurationSchema`'s `postProcessSnapshot`
   collapse-to-`{}` behavior) is drafted but intentionally held pending a
   maintainer response to #5594.
-- WP2: repo-root `LICENSE`, `CITATION.cff`, and `.zenodo.json`, ahead of a
-  real Zenodo DOI mint once `v1.1.0-original-contributions` is tagged and
-  released. Also fixes a previously undiscovered gap: there was no
-  LICENSE file anywhere at the repo root, even though every package
-  already independently declared MIT (`gh api repos/.../license`
-  confirmed GitHub detected no license repo-wide).
+- `contributions/04-zenodo-doi.md`: WP2, repo-root `LICENSE`,
+  `CITATION.cff`, and `.zenodo.json`, and a real Zenodo DOI archiving
+  this repository:
+  [10.5281/zenodo.21197886](https://doi.org/10.5281/zenodo.21197886)
+  (minted 2026-07-04, recorded here retroactively since minting only
+  succeeded on the `v1.1.1` release described above). Also fixes a
+  previously undiscovered gap: there was no LICENSE file anywhere at the
+  repo root, even though every package already independently declared
+  MIT (`gh api repos/.../license` confirmed GitHub detected no license
+  repo-wide). Minting required troubleshooting a real GitHub-Zenodo
+  integration gap: the repository-to-Zenodo connection wasn't actually
+  completed before the first release was published, so that release was
+  never archived, and a second release was needed after the connection
+  was fixed for real.
 - `contributions/02-dockstore-registration.md`: WP3, the Phase 3
   `prepare_sv_track_data.wdl` workflow (already verified end-to-end with
   real `miniwdl`/Docker execution) registered and published live on
@@ -63,10 +75,10 @@ Note: `v1.1.1` (2026-07-04, no functional changes) exists solely because Zenodo'
   written to avoid claiming novel research -- each item is described as
   the standard category of engineering activity it is (a bug report, a
   workflow registration, a package publication), with a link to its real
-  artifact. WP2 (the Zenodo DOI) is intentionally not referenced yet: it
-  can't exist before this document does, since minting it requires a
-  release cut from the `v1.1.0` tag that this document is itself part
-  of; a short addendum will follow once it's minted.
+  artifact. WP2 (the Zenodo DOI) was initially left out, since it could
+  not exist before this document did -- updated after the fact, in this
+  same release, with the real DOI and its own troubleshooting note once
+  minted (see the WP2 entry above).
 
 ## [v1.0.0-mlops-stack] - 2026-07-03
 

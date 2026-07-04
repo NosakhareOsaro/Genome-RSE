@@ -6,6 +6,7 @@ date-released: "2026-07-04"
 type: software
 license: MIT
 repository-code: "https://github.com/NosakhareOsaro/Genome-RSE"
+doi: 10.5281/zenodo.21197886
 abstract: >-
   A research-software-engineering portfolio project spanning packaged
   Python/R bioinformatics libraries (VCF annotation, a minimal FHIR R4
