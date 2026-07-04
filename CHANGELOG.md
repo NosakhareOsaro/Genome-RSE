@@ -53,6 +53,16 @@ Phase 5: original, externally-verifiable contributions building on Phases 1-4 (t
   `validate_resource()` calls against real sample inputs, not just an
   import check) both after the test.pypi.org dry run and again after the
   real, irreversible `pypi.org` publish.
+- `docs/case-study.md`: WP5, a single write-up of WP1/WP3/WP4 for a
+  reader unfamiliar with this repository or the specific tools involved
+  (e.g. a visa caseworker or non-specialist interviewer), explicitly
+  written to avoid claiming novel research -- each item is described as
+  the standard category of engineering activity it is (a bug report, a
+  workflow registration, a package publication), with a link to its real
+  artifact. WP2 (the Zenodo DOI) is intentionally not referenced yet: it
+  can't exist before this document does, since minting it requires a
+  release cut from the `v1.1.0` tag that this document is itself part
+  of; a short addendum will follow once it's minted.
 
 ## [v1.0.0-mlops-stack] - 2026-07-03
 

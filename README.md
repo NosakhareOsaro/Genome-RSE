@@ -182,6 +182,15 @@ not a data or service dependency.
     irreversible `pypi.org` publish). Standard practice, not novel; see
     [`contributions/03-pypi-publication.md`](contributions/03-pypi-publication.md)
     for the full process, including the rename reasoning.
+  - A fourth item, a Zenodo DOI archiving this repository, is pending —
+    the metadata and account linking are done, but minting the DOI
+    requires a GitHub Release cut from the final `v1.1.0` tag.
+
+  [`docs/case-study.md`](docs/case-study.md) is a single, self-contained
+  write-up of the three completed items above (written for a reader
+  unfamiliar with this repo or the specific tools involved — e.g. a visa
+  caseworker or non-specialist interviewer), to be updated with the
+  Zenodo DOI once it exists.
 
 ## Setup
 
