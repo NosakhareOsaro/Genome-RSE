@@ -163,6 +163,14 @@ not a data or service dependency.
     before filing. See
     [`contributions/01-jbrowse2-reexports-issue.md`](contributions/01-jbrowse2-reexports-issue.md)
     for the full investigation writeup.
+  - **A published Dockstore workflow registration**
+    ([prepare-sv-track-data](https://dockstore.org/workflows/github.com/NosakhareOsaro/Genome-RSE/prepare-sv-track-data:main?tab=info),
+    live 2026-07-04) — the Phase 3 WDL workflow (already verified
+    end-to-end with real `miniwdl`/Docker execution), registered and
+    published for real. Standard practice, not novel, but a genuine,
+    independently checkable artifact — including an honest record of the
+    GitHub App sync troubleshooting it actually took, in
+    [`contributions/02-dockstore-registration.md`](contributions/02-dockstore-registration.md).
 
 ## Setup
 

@@ -25,6 +25,22 @@ Phase 5: original, externally-verifiable contributions building on Phases 1-4 (t
   documentation PR (explaining `ConfigurationSchema`'s `postProcessSnapshot`
   collapse-to-`{}` behavior) is drafted but intentionally held pending a
   maintainer response to #5594.
+- WP2: repo-root `LICENSE`, `CITATION.cff`, and `.zenodo.json`, ahead of a
+  real Zenodo DOI mint once `v1.1.0-original-contributions` is tagged and
+  released. Also fixes a previously undiscovered gap: there was no
+  LICENSE file anywhere at the repo root, even though every package
+  already independently declared MIT (`gh api repos/.../license`
+  confirmed GitHub detected no license repo-wide).
+- `contributions/02-dockstore-registration.md`: WP3, the Phase 3
+  `prepare_sv_track_data.wdl` workflow (already verified end-to-end with
+  real `miniwdl`/Docker execution) registered and published live on
+  Dockstore
+  ([prepare-sv-track-data](https://dockstore.org/workflows/github.com/NosakhareOsaro/Genome-RSE/prepare-sv-track-data:main?tab=info),
+  2026-07-04). Troubleshot a real first-time-sync gotcha along the way:
+  Dockstore's GitHub App sync is webhook-driven and doesn't retroactively
+  scan a `.dockstore.yml` that predates app installation -- fixed by
+  adding the workflow's `topic` field (a real, useful field, not a
+  throwaway change) to produce the push Dockstore was waiting for.
 
 ## [v1.0.0-mlops-stack] - 2026-07-03
 
