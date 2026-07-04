@@ -41,6 +41,18 @@ Phase 5: original, externally-verifiable contributions building on Phases 1-4 (t
   scan a `.dockstore.yml` that predates app installation -- fixed by
   adding the workflow's `topic` field (a real, useful field, not a
   throwaway change) to produce the push Dockstore was waiting for.
+- `contributions/03-pypi-publication.md`: WP4, `packages/py-genomics-utils`
+  published for real to PyPI as
+  [`genomerse-genomics-utils` 0.1.0](https://pypi.org/project/genomerse-genomics-utils/0.1.0/)
+  (2026-07-04) -- `pip install genomerse-genomics-utils` genuinely works
+  from the public internet. Renamed from the originally-available but
+  too-generic `genomics-utils` (PyPI distribution name only; the Python
+  import path stays `genomics_utils`) before any registry upload. Dry-run
+  published to test.pypi.org first under the final name, then
+  functionally verified in a fresh virtualenv (real `annotate_vcf()` and
+  `validate_resource()` calls against real sample inputs, not just an
+  import check) both after the test.pypi.org dry run and again after the
+  real, irreversible `pypi.org` publish.
 
 ## [v1.0.0-mlops-stack] - 2026-07-03
 

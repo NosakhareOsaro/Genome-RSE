@@ -171,6 +171,17 @@ not a data or service dependency.
     independently checkable artifact — including an honest record of the
     GitHub App sync troubleshooting it actually took, in
     [`contributions/02-dockstore-registration.md`](contributions/02-dockstore-registration.md).
+  - **A real PyPI publication**
+    ([genomerse-genomics-utils 0.1.0](https://pypi.org/project/genomerse-genomics-utils/0.1.0/),
+    live 2026-07-04) — the Phase 1 Python package, published for real:
+    `pip install genomerse-genomics-utils` genuinely works from the
+    public internet. Renamed from the originally-available but
+    too-generic `genomics-utils` before publishing, dry-run published to
+    test.pypi.org first (under the final name, then functionally
+    verified — not just imported — in a fresh virtualenv before the real,
+    irreversible `pypi.org` publish). Standard practice, not novel; see
+    [`contributions/03-pypi-publication.md`](contributions/03-pypi-publication.md)
+    for the full process, including the rename reasoning.
 
 ## Setup
 
