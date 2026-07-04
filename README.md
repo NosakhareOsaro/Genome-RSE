@@ -9,10 +9,11 @@
 [![model-serving CI](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-ci.yml)
 [![model-serving CD](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml/badge.svg)](https://github.com/NosakhareOsaro/Genome-RSE/actions/workflows/model-serving-cd.yml)
 
-A research-software-engineering portfolio project spanning four phases —
+A research-software-engineering portfolio project spanning four core phases —
 packaging, an async API service, a genome-browser plugin, and an MLOps
-Kubernetes stack — each fully tested, CI-checked, and (where a live
-deployment target exists) actually verified against real infrastructure,
+Kubernetes stack — plus a fifth phase of original, externally-verifiable
+contributions building on them. Each phase is fully tested, CI-checked,
+and (where a live deployment target exists) actually verified against real infrastructure,
 not just "the code looks right."
 
 ## Architecture
@@ -148,6 +149,20 @@ not a data or service dependency.
   in this repo. Three Architecture Decision Records in
   [`docs/adr`](docs/adr) cover the FastAPI, Kubernetes/Helm, and
   database/cache choices.
+
+- **Phase 5** (`v1.1.0-original-contributions`, in progress): original,
+  externally-verifiable contributions building on the first four phases —
+  see [`contributions/`](contributions). Not "novel research"; each item
+  is a genuine, checkable artifact a reviewer can click through to
+  directly. So far:
+  - **A real upstream bug report filed against JBrowse2**
+    ([GMOD/jbrowse-components#5594](https://github.com/GMOD/jbrowse-components/issues/5594),
+    filed 2026-07-04, open/awaiting response) — re-verified a Phase 3
+    finding against a fresh build (not our own already-fixed plugin
+    code), mapped its full scope, and ruled out simpler explanations
+    before filing. See
+    [`contributions/01-jbrowse2-reexports-issue.md`](contributions/01-jbrowse2-reexports-issue.md)
+    for the full investigation writeup.
 
 ## Setup
 

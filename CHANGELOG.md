@@ -8,6 +8,24 @@ per-package (each package is versioned independently).
 
 ## [Unreleased]
 
+Phase 5: original, externally-verifiable contributions building on Phases 1-4 (target tag `v1.1.0-original-contributions`).
+
+### Added
+
+- `contributions/01-jbrowse2-reexports-issue.md`: WP1, a real upstream bug
+  report filed against GMOD/jbrowse-components
+  ([#5594](https://github.com/GMOD/jbrowse-components/issues/5594), filed
+  2026-07-04, open). Re-verified a Phase 3 finding (the `FeatureRendererType`
+  default-export shape mismatch) against a freshly assembled, current
+  jbrowse-web v4.3.0 -- not our own already-fixed plugin code -- mapped its
+  full scope (4 of the affected base classes, not just 1), ruled out a
+  source-level export-syntax explanation by comparing the wrapped and
+  unwrapped modules' actual source, and confirmed it affects the officially
+  recommended `jbrowse-plugin-template` tooling before filing. A related
+  documentation PR (explaining `ConfigurationSchema`'s `postProcessSnapshot`
+  collapse-to-`{}` behavior) is drafted but intentionally held pending a
+  maintainer response to #5594.
+
 ## [v1.0.0-mlops-stack] - 2026-07-03
 
 Phase 4: `services/model-serving` + `infra/`, an MLOps Kubernetes stack.
