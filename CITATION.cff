@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "GenomeRSE"
+version: 1.0.0
+date-released: "2026-07-03"
+type: software
+license: MIT
+repository-code: "https://github.com/NosakhareOsaro/Genome-RSE"
+abstract: >-
+  A research-software-engineering portfolio project spanning packaged
+  Python/R bioinformatics libraries (VCF annotation, a minimal FHIR R4
+  validator, an RNA-seq differential expression workflow), an async FHIR
+  R4 MolecularSequence REST API, a JBrowse2 genome-browser plugin for
+  structural-variant visualization, an MLOps Kubernetes stack (MLflow
+  model registry, FastAPI serving, Helm/kind, GitHub Actions CI/CD,
+  Terraform IaC), and original, externally-verifiable contributions
+  building on them.
+authors:
+  - family-names: "Osaro"
+    given-names: "Nosakhare"
+    email: "osaronosakhare@gmail.com"
+keywords:
+  - bioinformatics
+  - research-software-engineering
+  - fhir
+  - jbrowse2
+  - mlops
+  - kubernetes
+  - genomics
