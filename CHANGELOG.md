@@ -8,7 +8,11 @@ per-package (each package is versioned independently).
 
 ## [Unreleased]
 
-Phase 5: original, externally-verifiable contributions building on Phases 1-4 (target tag `v1.1.0-original-contributions`).
+## [v1.1.0-original-contributions] - 2026-07-04
+
+Phase 5: original, externally-verifiable contributions building on Phases 1-4.
+
+Note: `v1.1.1` (2026-07-04, no functional changes) exists solely because Zenodo's GitHub integration was only connected *after* `v1.1.0-original-contributions` was published, so that release was never archived -- `v1.1.1` re-cuts the same content purely to trigger the now-connected webhook and mint a real DOI.
 
 ### Added
 
