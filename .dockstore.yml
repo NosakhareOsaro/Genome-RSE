@@ -7,3 +7,4 @@ workflows:
       - /plugins/jbrowse2-sv-tracks/workflow/test.inputs.json
     authors:
       - name: Nosakhare Osaro
+    topic: "Coordinate-sorts and indexes a VCF and BAM for JBrowse2 structural-variant visualization"
