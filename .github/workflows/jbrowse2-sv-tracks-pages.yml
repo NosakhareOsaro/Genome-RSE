@@ -80,6 +80,28 @@ jobs:
           mkdir -p _site/jbrowse2-sv-tracks
           cp -r _jbrowse-web/. _site/jbrowse2-sv-tracks/
 
+      - name: Add a root redirect to the demo
+        # The demo intentionally lives under /jbrowse2-sv-tracks/, not at
+        # this Pages site's root (see the module comment above), so the
+        # artifact root has no index.html of its own -- visiting the bare
+        # Pages URL 404s instead of landing anywhere useful. This adds a
+        # minimal one at _site/index.html (the artifact root) that sends
+        # visitors on to the actual demo.
+        run: |
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta http-equiv="refresh" content="0; url=./jbrowse2-sv-tracks/" />
+              <title>GenomeRSE</title>
+            </head>
+            <body>
+              <p>Redirecting to the <a href="./jbrowse2-sv-tracks/">jbrowse2-sv-tracks demo</a>&hellip;</p>
+            </body>
+          </html>
+          HTML
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: plugins/jbrowse2-sv-tracks/_site
